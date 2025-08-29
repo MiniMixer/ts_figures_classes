@@ -26,28 +26,12 @@ export class Triangle implements Figure {
     this.b = b;
     this.c = c;
 
-    if (this.a <= 0 || this.b <= 0 || this.c <= 0) {
-      throw new Error('Sides can`t be less or equal 0');
-    }
+    const longest = Math.max(a, b, c);
 
-    if (this.a > this.b && this.a > this.c) {
-      if (this.a >= this.b + this.c) {
-        throw new Error(
-          `Sides ${this.a}, ${this.b} and ${this.c} can't form a triangle`,
-        );
-      }
-    } else if (this.b > this.a && this.b > this.c) {
-      if (this.b >= this.a + this.c) {
-        throw new Error(
-          `Sides ${this.a}, ${this.b} and ${this.c} can't form a triangle`,
-        );
-      }
-    } else if (this.c > this.a && this.c > this.b) {
-      if (this.c >= this.a + this.b) {
-        throw new Error(
-          `Sides ${this.a}, ${this.b} and ${this.c} can't form a triangle`,
-        );
-      }
+    const sumOfOtherTwo = a + b + c - longest;
+
+    if (longest >= sumOfOtherTwo) {
+      throw new Error(`sides ${a}, ${b} and ${c} can't form a triangle`);
     }
   }
 
@@ -90,25 +74,25 @@ export class Rectangle implements Figure {
 
   width: number;
 
-  heigth: number;
+  height: number;
 
-  constructor(color: 'red' | 'green' | 'blue', width: number, heigth: number) {
+  constructor(color: 'red' | 'green' | 'blue', width: number, height: number) {
     this.color = color;
     this.width = width;
-    this.heigth = heigth;
+    this.height = height;
 
-    if (this.heigth <= 0 || this.width <= 0) {
-      throw new Error('Heigth or width can`t be less or equal 0');
+    if (this.height <= 0 || this.width <= 0) {
+      throw new Error('Height or width must be greater than 0');
     }
   }
 
   getArea(): number {
-    const area = this.width * this.heigth;
+    const area = this.width * this.height;
 
     return Math.floor(area * 100) / 100;
   }
 }
 
-export function getInfo(figure): string {
+export function getInfo(figure: Figure): string {
   return `A ${figure.color} ${figure.shape} - ${figure.getArea()}`;
 }
